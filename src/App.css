@@ -1,0 +1,157 @@
+:root {
+  --font-size-main: calc(10px + 2vmin);
+
+  --main-font: 'IBM Plex Mono', monospace;
+  --secondary-font: 'IBM Plex Serif', serif;
+
+  --white: white;
+
+  --violet1: hsl(250, 20.0%, 10.2%);
+  --violet2: hsl(255, 30.3%, 12.9%);
+  --violet3: hsl(253, 37.0%, 18.4%);
+  --violet4: hsl(252, 40.1%, 22.5%);
+  --violet5: hsl(252, 42.2%, 26.2%);
+  --violet6: hsl(251, 44.3%, 31.1%);
+  --violet7: hsl(250, 46.8%, 38.9%);
+  --violet8: hsl(250, 51.8%, 51.2%);
+  --violet9: hsl(252, 56.0%, 57.5%);
+  --violet10: hsl(251, 63.2%, 63.2%);
+  --violet11: hsl(250, 95.0%, 76.8%);
+  --violet12: hsl(252, 87.0%, 96.4%);
+
+  --mauve1: hsl(246, 6.0%, 9.0%);
+  --mauve2: hsl(240, 5.1%, 11.6%);
+  --mauve3: hsl(241, 5.0%, 14.3%);
+  --mauve4: hsl(242, 4.9%, 16.5%);
+  --mauve5: hsl(243, 4.9%, 18.8%);
+  --mauve6: hsl(244, 4.9%, 21.5%);
+  --mauve7: hsl(245, 4.9%, 25.4%);
+  --mauve8: hsl(247, 4.8%, 32.5%);
+  --mauve9: hsl(252, 4.0%, 45.2%);
+  --mauve10: hsl(247, 3.4%, 50.7%);
+  --mauve11: hsl(253, 4.0%, 63.7%);
+  --mauve12: hsl(256, 6.0%, 93.2%);
+
+  --pixel-size: 1px; /* Haven't gotten this working yet */
+}
+
+/* for some reason this also solves a bug where the sprite sometimes disappears between movements. Sigh! */
+* {
+  /* outline: 1px solid black; */
+}
+
+body {
+  background-color: var(--mauve2);
+  color: var(--white);
+
+  font-family: var(--main-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  /* background-color: papayawhip; */
+}
+
+
+.app {
+  min-height: 100vh;
+
+  display: grid;
+  place-content: center;
+
+  text-align: center;
+  font-size: var(--font-size-main);
+
+  position: relative;
+}
+
+.camera {
+  width: 85vw;
+  height: 85vh;
+  /* background-color: plum; */
+  overflow: hidden;
+}
+
+.background {
+  height: 1920px;
+  aspect-ratio: 1;
+  background-image:
+            url(./assets/HillsLayer06.png),
+            url(./assets/HillsLayer05.png),
+            url(./assets/HillsLayer04.png),
+            url(./assets/HillsLayer03.png),
+            url(./assets/HillsLayer02.png),
+            url(./assets/HillsLayer01.png);
+  background-repeat: repeat-x;
+  image-rendering: pixelated;
+  background-size: 100%;
+  /* position: absolute;
+  top: 0;
+  left: 0; */
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  transition: all 200ms;
+  position: absolute;
+  top: 50vh;
+  left: 20vw;
+  z-index: 1;
+}
+
+
+.sprite {
+  width: calc(var(--pixel-size) * 32);
+  height: calc(var(--pixel-size) * 48);
+  z-index: 5;
+  
+  background-position: 0 0;
+  image-rendering: pixelated;
+
+  animation: spriteSheet steps(6) 550ms infinite;
+
+  transform: scale(3);
+}
+
+.sprite.left {
+  transform: scale(3) scaleX(-1);
+}
+.sprite.idle {
+  background-image: url(./assets/B_witch_idle.png);
+}
+.sprite.right.running,
+.sprite.left.running
+ {
+  background-image: url(./assets/B_witch_run.png);
+}
+.sprite.jump {
+  background-image: url(./assets/B_witch_charge.png);
+  z-index: 5;
+}
+
+
+@keyframes spriteSheet {
+  0% {background-position-y: 0}
+  100% {background-position-y: calc(var(--pixel-size) * -288)}
+}
+
+
+
+@media (max-width: 650px) {
+  :root {
+    --gridSize: calc(min(95vw, 95vh) / max(var(--gridRows), var(--gridCols)));
+  }
+
+  .app {
+    height: 90vh;
+    overflow-y: hidden;
+  }
+
+  .dist-label {
+    display: none;
+  }
+
+}
+
