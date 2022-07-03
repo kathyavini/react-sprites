@@ -1,13 +1,16 @@
 interface SpriteProps {
   mode: string;
-  direction: string;
+  directionX: string;
+  directionY: string;
   running: boolean;
 }
 
-export function Sprite({ mode, direction, running }: SpriteProps) {
+export function Sprite({ mode, directionX, directionY, running }: SpriteProps) {
   return (
     <div
-      className={`sprite ${mode} ${direction} ${running ? 'running' : ''}`}
+      className={`sprite ${mode} ${directionX} ${directionY} ${
+        running ? 'running' : ''
+      }`}
     ></div>
   );
 }

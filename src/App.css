@@ -32,6 +32,7 @@
   --mauve11: hsl(253, 4.0%, 63.7%);
   --mauve12: hsl(256, 6.0%, 93.2%);
 
+  --thumb-scale-factor: 1.75; /* for easy tapping */
   --char-scale-factor: 1.25; /* char scale factor; needs to be a little bigger */
   --scale-factor: 2; /* please add to movement as well */
 
@@ -46,6 +47,90 @@
     --scale-factor: 2;
     --char-scale-factor: 1.5;
   }
+
+  .camera {
+    margin: 0;
+  }
+}
+
+.jump-button {
+  position: absolute;
+  bottom: 66px;
+  left: 325px;
+  z-index: 50;
+
+  height: 16px;
+  width: 16px;
+  transform: scale(calc(var(--scale-factor) * var(--thumb-scale-factor)));
+  background-image: url(./assets/button.png);
+  image-rendering: pixelated;
+
+  touch-action: pinch-zoom;
+}
+
+.tap-box {
+  /* outline: 2px solid white;
+  background-color: plum; */
+
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+  z-index: 50;
+
+  height: 64px;
+  width: 64px;
+  transform: scale(var(--scale-factor));
+
+  touch-action: pinch-zoom;
+}
+
+.mobile-controls {
+  /* outline: 1px solid salmon; */
+
+  position: absolute;
+  inset: 16px;
+
+  width: 32px; /* based off of file */
+  height: 32px;
+  z-index: 30;
+
+  background-position: 0 0;
+  background-image: url(./assets/pad.png);
+  image-rendering: pixelated;
+
+  transform: scale(var(--thumb-scale-factor));
+}
+
+.mobile-controls.up {
+  background-image: url(./assets/pad-directions.png);
+  background-position-y: 0px;
+}
+
+.mobile-controls.left {
+  background-image: url(./assets/pad-directions.png);
+  background-position-y: 32px;
+}
+
+.mobile-controls.down {
+  background-image: url(./assets/pad-directions.png);
+  background-position-y: 64px;
+}
+
+.mobile-controls.right {
+  background-image: url(./assets/pad-directions.png);
+  background-position-y: 96px;
+}
+
+/* mobile control pad */
+@media (hover: none) {
+  .mobile-controls {
+
+  }
+
+  .camera {
+    margin: 0;
+  }
+
 }
 
 /* for some reason this also solves a bug where the sprite sometimes disappears between movements. Sigh! */
@@ -92,9 +177,6 @@ body {
 
   position: relative;
   overflow: hidden;
-
-  width: 90vw;
-  height: 90vh; /* Then char immediately disappears on mobile */
 }
 
 .map {
@@ -138,14 +220,16 @@ body {
   transform: scale(calc(var(--scale-factor)*var(--char-scale-factor)));
 }
 
-.sprite.left {
+.sprite.left, .sprite.down.left, .sprite.up.left {
   transform: scale(calc(var(--scale-factor)*var(--char-scale-factor))) scaleX(-1);
 }
+
+
 .sprite.idle {
   background-image: url(./assets/B_witch_idle.png);
   animation: spriteIdle steps(6) 650ms infinite;
 }
-.sprite.running {
+.sprite.running, .sprite.straight.up.running {
   width: 32px;
   height: 48px;
   background-image: url(./assets/B_witch_run.png);
