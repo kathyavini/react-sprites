@@ -18,19 +18,42 @@ export function FramerBox({ position, setPosition }: FramerBoxProps) {
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyRelease);
 
-    // to limit the number of moves which can be done at once
-    // A not great way to limit lag from re-rederings
+    let keyMap = {
+      left: false,
+      up: false,
+      down: false,
+      jump: false,
+    };
+
     function handleKeyRelease(event: any) {
+      // to limit the number of moves which can be done at once
+      // A not great way to limit lag from re-reders
       keyCount = 0;
+
+      //// Might do something like this later. For now transitionEnd / animationEnd events set the state
+      // const key = event.key;
+      // switch (key) {
+      // case 'd':
+      // case 'ArrowRight':
+      // case 'a':
+      // case 'ArrowLeft':
+      //   setRunning(false);
+      //   break;
+      // case ' ':
+      //   setJumping(false);
+      // }
     }
 
     function handleKeyDown(event: any) {
       event.preventDefault();
       event.stopPropagation();
+
       const key = event.key;
       // console.log({ key });
+
       keyCount++;
       if (keyCount > 15) return;
+
       switch (key) {
         case 'd':
         case 'ArrowRight':
@@ -56,8 +79,9 @@ export function FramerBox({ position, setPosition }: FramerBoxProps) {
           setPosition((prev) => [prev[0], prev[1] + 20]);
           break;
         case ' ':
-          setRunning(false);
-          setJumping(true);
+          if (!jumping) {
+            setJumping(true);
+          }
       }
     }
 
@@ -68,8 +92,13 @@ export function FramerBox({ position, setPosition }: FramerBoxProps) {
     };
   }, []);
 
+  function handleTap() {
+    setPosition((prev) => [prev[0] + 25, prev[1]]);
+  }
+
   return (
     <motion.div
+      onTap={handleTap}
       className="box"
       animate={{
         y: jumping
@@ -78,9 +107,13 @@ export function FramerBox({ position, setPosition }: FramerBoxProps) {
         x: position[0],
       }}
       onAnimationComplete={() => {
+        /* It's meant to complete when y has returned to 0 but it seems to also end prematurely*/
         setJumping(false);
       }}
-      onTransitionEnd={() => setRunning(false)}
+      onTransitionEnd={() =>
+        /* Triggered, I think, when movement to the side has ended*/
+        setRunning(false)
+      }
     >
       <Sprite
         mode={jumping ? 'jump' : 'idle'}

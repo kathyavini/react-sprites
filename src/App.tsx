@@ -3,23 +3,33 @@ import './App.css';
 import { FramerBox } from './components/FramerBox';
 import { motion } from 'framer-motion';
 
+interface MapProps {
+  position: number[];
+  setPosition: React.Dispatch<React.SetStateAction<number[]>>;
+}
+function Map({ position, setPosition }: MapProps) {
+  return (
+    <motion.div
+      className="map"
+      /* I don't know why the character doesn't stay centered! The values are opposite-identical!*/
+      animate={{
+        y: -position[1],
+        x: -position[0],
+      }}
+    ></motion.div>
+  );
+}
+
 function App() {
   const [position, setPosition] = useState([0, 0]);
 
   return (
-    <motion.div className="app">
+    <div className="game-container">
       <div className="camera">
-        <motion.div
-          className="background"
-          animate={{
-            y: -position[1],
-            x: -position[0],
-          }}
-        >
-          <FramerBox position={position} setPosition={setPosition} />
-        </motion.div>
+        <Map position={position} setPosition={setPosition} />
+        <FramerBox position={position} setPosition={setPosition} />
       </div>
-    </motion.div>
+    </div>
   );
 }
 
