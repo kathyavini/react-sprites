@@ -5,6 +5,7 @@
   --secondary-font: 'IBM Plex Serif', serif;
 
   --white: white;
+  --background: #060606; /* From pico tileset img*/
 
   --violet1: hsl(250, 20.0%, 10.2%);
   --violet2: hsl(255, 30.3%, 12.9%);
@@ -32,187 +33,236 @@
   --mauve11: hsl(253, 4.0%, 63.7%);
   --mauve12: hsl(256, 6.0%, 93.2%);
 
+  /* First attempt, ignore */
   --thumb-scale-factor: 1.75; /* for easy tapping */
   --char-scale-factor: 1.25; /* char scale factor; needs to be a little bigger */
-  --scale-factor: 2; /* please add to movement as well */
 
-  --gridRows: 9; /* 16:9 plus one cell borders */
-  --gridCols: 16;
 
-  --gridSize: calc(var(--scale-factor) * 50px);
+  /* Camera */
+  --gridRows: 8;
+  --gridCols: 8;
+
+  /* From PICO tileset */
+  --gridSize: 8px;
+
+  /* Enlargement of all assets */
+  --scale-factor: 10; 
 }
 
-@media (max-width: 650px) {
-  :root {
-    --scale-factor: 2;
-    --char-scale-factor: 1.5;
-  }
-
-  .camera {
-    margin: 0;
-  }
-}
-
-.jump-button {
-  position: absolute;
-  bottom: 66px;
-  left: 325px;
-  z-index: 50;
-
-  height: 16px;
-  width: 16px;
-  transform: scale(calc(var(--scale-factor) * var(--thumb-scale-factor)));
-  background-image: url(./assets/button.png);
-  image-rendering: pixelated;
-
-  touch-action: pinch-zoom;
-}
-
-.tap-box {
-  /* outline: 2px solid white;
-  background-color: plum; */
-
-  position: absolute;
-  bottom: 50px;
-  left: 50px;
-  z-index: 50;
-
-  height: 64px;
-  width: 64px;
-  transform: scale(var(--scale-factor));
-
-  touch-action: pinch-zoom;
-}
-
-.mobile-controls {
-  /* outline: 1px solid salmon; */
-
-  position: absolute;
-  inset: 16px;
-
-  width: 32px; /* based off of file */
-  height: 32px;
-  z-index: 30;
-
-  background-position: 0 0;
-  background-image: url(./assets/pad.png);
-  image-rendering: pixelated;
-
-  transform: scale(var(--thumb-scale-factor));
-}
-
-.mobile-controls.up {
-  background-image: url(./assets/pad-directions.png);
-  background-position-y: 0px;
-}
-
-.mobile-controls.left {
-  background-image: url(./assets/pad-directions.png);
-  background-position-y: 32px;
-}
-
-.mobile-controls.down {
-  background-image: url(./assets/pad-directions.png);
-  background-position-y: 64px;
-}
-
-.mobile-controls.right {
-  background-image: url(./assets/pad-directions.png);
-  background-position-y: 96px;
-}
-
-/* mobile control pad */
 @media (hover: none) {
-  .mobile-controls {
-
+  :root {
+    --char-scale-factor: 2;
+    --thumb-scale-factor: 3;
   }
 
   .camera {
     margin: 0;
   }
-
 }
 
-/* for some reason this also solves a bug where the sprite sometimes disappears between movements. Sigh! */
+
 * {
   /* outline: 1px solid white; */
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
-  background-color: var(--mauve2);
+  /* background-color: var(--mauve2); */
+  display: grid;
+  place-content: center;
+
   font-family: var(--main-font);
   color: var(--white);
 
-  /* background-color: plum; */
+  background-color: plum;
 }
 
 #root {
-  /* background-color: papayawhip; */
-  height: 100%;
-  width: 100%;
+  background-color: papayawhip;
+  display: grid;
+  place-content: center;
 }
 
 
 /* This element sets the grid for the game, which I'm not using in any way yet */
 .game-container {
+  height: 90vh;
+  width: 90vw;
   display: grid;
-  grid-template-rows: repeat(var(--gridRows), var(--gridSize));
-  grid-template-columns: repeat(var(--gridCols), var(--gridSize));
+  place-content: center;
+  /* grid-template-rows: repeat(var(--gridRows), var(--gridSize));
+  grid-template-columns: repeat(var(--gridCols), var(--gridSize)); */
 
   position: relative;
   /* overflow: hidden; */
 }
 
 .camera {
+  background-color: var(--background);
   /* a bit of grid-based margin */
-  margin: calc(var(--gridSize)) calc(var(--gridSize)/2);
+  /* margin: calc(var(--gridSize)) calc(var(--gridSize)/2);
   grid-row: 1 / -1;
   grid-column: 1 / -1;
   
   width: calc(var(--gridSize) * 15);
-  height: calc(var(--gridSize) * 7);
+  height: calc(var(--gridSize) * 7); */
+
+  width: calc(8 * var(--gridSize) * var(--scale-factor));
+  height: calc(8 * var(--gridSize) * var(--scale-factor));
 
   position: relative;
   overflow: hidden;
 }
 
-.map {
+/* Camera */
+.overlay-grid {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+
+  pointer-events: none;
+}
+
+.overlay-box {
+  display: grid;
+  place-content: center;
+
+  pointer-events: none;
+}
+
+/* Take from map image dimensions */
+.map-container {
+  position: relative;
+
+  width: calc(320px * var(--scale-factor));
+  height: calc(128px * var(--scale-factor));
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Align this to the grid */
+  top: calc(-6 * var(--gridSize) * var(--scale-factor));
+  left: calc(-7 * var(--gridSize) * var(--scale-factor));
+}
+
+img.map {
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+/* Map */
+.map-grid {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: grid;
+  grid-template-columns: repeat(40, 1fr);
+  grid-template-rows: repeat(16, 1fr);
+
+  pointer-events: none;
+}
+
+.map-box {
+  display: grid;
+  place-content: center;
+
+  pointer-events: none;
+}
+
+.mapASDIV {
   grid-row: 1 / -1;
   grid-column: 1 / -1;
-  height: calc(var(--gridSize) * 9);
-  width: calc(var(--gridSize) * 16 * 2); /* ok, but sprite goes off screen */
+  height: 128px ;
+  width: 320px;
 
-  background-image:
+
+ /* ok, but sprite goes off screen */
+  /* height: calc(var(--gridSize) * 9);
+  width: calc(var(--gridSize) * 16 * 2);  */
+  
+
+/* BLUE WITCH */
+  /* background-image:
             url(./assets/HillsLayer06.png),
             url(./assets/HillsLayer05.png),
             url(./assets/HillsLayer04.png),
             url(./assets/HillsLayer03.png),
             url(./assets/HillsLayer02.png),
-            url(./assets/HillsLayer01.png);
-  background-repeat: repeat-x;
-  /* background-image:
-            url(./assets/my-background.png);
-  background-repeat: no-repeat; */
+            url(./assets/HillsLayer01.png); */
+  /* background-repeat: repeat-x; */
+  /* background-size: auto calc(var(--gridSize) * 9); */
+
+
+  background-image: url(./assets/sam-pico-recreation.png);
+  image-rendering: pixelated;
+  background-size: contain;
+
+
+   /* AUTUMN TOWN */
+  /* background-image: url(./assets/Autumn-Town-My-Attempt.png);
+  background-repeat: no-repeat;
   image-rendering: pixelated; 
-  background-size: auto calc(var(--gridSize) * 9);
+  background-size: 2000px 436px; */
+
 }
 
 
 .box {
   transition: all 200ms; /* State is reset by detecting the end of this */
   position: absolute;
-  top: calc(var(--scale-factor) * 100px);
-  left: calc(var(--scale-factor) * 75px);
-  z-index: 25;
+
+  /* Align this to the grid */
+  top: calc(2 * var(--gridSize) * var(--scale-factor));
+  left: calc(1 * var(--gridSize) * var(--scale-factor));
+
+  /* height: calc(8px *var(--scale-factor));
+  width: calc(8px *var(--scale-factor)); */
+
 }
 
-
-
+/* PICO SET */
 .sprite {
-  width: 32px; /* based off of file */
+  width: 8px;
+  height: 8px;
+  z-index: 25;
+  image-rendering: pixelated;
+
+  background-image: url(./assets/sam-pico-ghost.png);
+  background-size: cover;
+
+  transform: scale(var(--scale-factor));
+  transform-origin: top left;
+
+  outline: none;
+
+}
+
+ /* AUTUMN TOWN */
+/* .sprite {
+  width: 32px;
+  height: 32px;
+  z-index: 25;
+  background-position: 0 0;
+  image-rendering: pixelated;
+  transform: scale(2);
+} */
+
+
+/* Take dimensions from file */
+  /* BLUE WITCH */
+/*
+.sprite {
+  width: 32px;
   height: 48px;
   z-index: 25;
   background-position: 0 0;
@@ -220,48 +270,74 @@ body {
   transform: scale(calc(var(--scale-factor)*var(--char-scale-factor)));
 }
 
+*/
+
 .sprite.left, .sprite.down.left, .sprite.up.left {
-  transform: scale(calc(var(--scale-factor)*var(--char-scale-factor))) scaleX(-1);
+  /* BLUE WITCH */
+  /* transform: scale(calc(var(--scale-factor)*var(--char-scale-factor))) scaleX(-1); */
+  /* AUTUMN TOWN */
+  /* transform: scale(2) scaleX(-1); */
+
+  transform: scale(var(--scale-factor)) scaleX(-1);
+  transform-origin: top right;
 }
 
 
 .sprite.idle {
-  background-image: url(./assets/B_witch_idle.png);
-  animation: spriteIdle steps(6) 650ms infinite;
+  /* BLUE WITCH */
+  /* background-image: url(./assets/B_witch_idle.png);
+  animation: spriteIdle steps(6) 650ms infinite; */
+
+  /* AUTUMN TOWN */
+  /* background-image: url(./assets/SpriteSheet_PlayerIdle_Night.png);
+  animation: spriteIdle steps(10) 650ms infinite; */
 }
+
 .sprite.running, .sprite.straight.up.running {
-  width: 32px;
+  /* BLUE WITCH */
+  /* width: 32px;
   height: 48px;
   background-image: url(./assets/B_witch_run.png);
-  animation: spriteRun steps(8) 550ms infinite;
+  animation: spriteRun steps(8) 550ms infinite; */
+
+ /* AUTUMN TOWN */
+  /* background-image: url(./assets/SpriteSheet_PlayerWalk_Night.png);
+  animation: spriteRun steps(10) 550ms infinite; */
 }
 
 .sprite.jump {
-  width: 48px;
+  /* BLUE WITCH */
+
+  /* width: 48px;
   height: 48px;
   background-image: url(./assets/B_witch_charge.png);
   z-index: 5;
-  animation: spriteJump steps(5) 550ms infinite;
+  animation: spriteJump steps(5) 550ms infinite; */
+
+  /* AUTUMN TOWN */
+  /* background-image: url(./assets/SpriteSheet_PlayerJump_Night.png);
+  z-index: 5;
+  animation: spriteJump steps(5) 550ms infinite; */
 }
 
 
 @keyframes spriteIdle {
-  0% {background-position-y: 0}
-  100% {background-position-y: -288px}
+  /* 0% {background-position-y: 0} */
+  /* 100% {background-position-y: -288px} */
+  0% {background-position-x: 0}
+  100% {background-position-x: -320px}
 }
 
 @keyframes spriteRun {
-  0% {background-position-y: 0}
-  100% {background-position-y: -384px}
-}
-
-@keyframes spriteRun {
-  0% {background-position-y: 0}
-  100% {background-position-y: -384px}
+  /* 0% {background-position-y: 0}
+  100% {background-position-y: -384px} */  0% {background-position-x: 0}
+  100% {background-position-x: -320px}
 }
 
 @keyframes spriteJump {
-  0% {background-position-y: 0}
-  100% {background-position-y: -240px}
+  /* 0% {background-position-y: 0}
+  100% {background-position-y: -240px} */
+  0% {background-position-x: 0}
+  100% {background-position-x: -160px}
 }
 

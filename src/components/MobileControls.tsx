@@ -1,3 +1,5 @@
+import './MobileControls.css';
+
 interface MobileControlsProps {
   position: number[];
   setPosition: React.Dispatch<React.SetStateAction<number[]>>;
@@ -27,42 +29,57 @@ export function MobileControls({
 
     const tapX = event.nativeEvent.layerX;
     const tapY = event.nativeEvent.layerY;
-    console.log(tapX, tapY);
+    // console.log(tapX, tapY);
 
-    if (tapX > 18) {
+    if (tapX > 20) {
       setRunning(true);
       setDirectionX('right');
       setPosition((prev) => [prev[0] + 25, prev[1]]);
     }
 
-    if (tapX < 14) {
+    if (tapX < 10) {
       setRunning(true);
       setDirectionX('left');
       setPosition((prev) => [prev[0] - 25, prev[1]]);
     }
 
     // For straight down and up, which I want to animate a little differently
-    if (tapX > 12 && tapX < 18 && tapY < 14) {
+    if (tapX > 14 && tapX < 19 && tapY < 10) {
       setRunning(true);
       setDirectionY('up');
       setDirectionX('straight');
       setPosition((prev) => [prev[0], prev[1] - 25]);
     }
 
-    if (tapX > 12 && tapX < 18 && tapY > 18) {
+    if (tapX > 14 && tapX < 18 && tapY > 20) {
       setRunning(true);
       setDirectionY('down');
       setDirectionX('straight');
       setPosition((prev) => [prev[0], prev[1] + 25]);
     }
 
-    if (tapY < 14) {
+    // Oops realized I needed this for straight left and right too
+    if (tapY > 14 && tapY < 18 && tapX < 10) {
+      setRunning(true);
+      setDirectionY('straight');
+      setDirectionX('left');
+      setPosition((prev) => [prev[0] - 25, prev[1]]);
+    }
+
+    if (tapY > 14 && tapY < 18 && tapX > 20) {
+      setRunning(true);
+      setDirectionY('straight');
+      setDirectionX('right');
+      setPosition((prev) => [prev[0] + 25, prev[1]]);
+    }
+
+    if (tapY < 10) {
       setRunning(true);
       setDirectionY('up');
       setPosition((prev) => [prev[0], prev[1] - 25]);
     }
 
-    if (tapY > 18) {
+    if (tapY > 20) {
       setRunning(true);
       setDirectionY('down');
       setPosition((prev) => [prev[0], prev[1] + 25]);
@@ -70,10 +87,10 @@ export function MobileControls({
   }
 
   function handleJumpButton() {
-    if (running) {
-      setJumping(true);
-      // setRunning(true);
-    }
+    // if (running) {
+    setJumping(true);
+    // setRunning(true);
+    // }
   }
 
   const directions = `${directionX} ${directionY}`;
