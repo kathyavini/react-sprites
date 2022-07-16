@@ -73,11 +73,12 @@ body {
   font-family: var(--main-font);
   color: var(--white);
 
-  background-color: plum;
+  /* background-color: plum; */
+  background-color: var(--background);
 }
 
 #root {
-  background-color: papayawhip;
+  /* background-color: papayawhip; */
   display: grid;
   place-content: center;
 }
@@ -109,8 +110,11 @@ body {
   width: calc(8 * var(--gridSize) * var(--scale-factor));
   height: calc(8 * var(--gridSize) * var(--scale-factor));
 
+  /* width: 100vw;
+  height: 100vh; */
+
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 /* Camera */
@@ -172,56 +176,43 @@ img.map {
   pointer-events: none;
 }
 
-.map-box {
+.map-grid-box {
   display: grid;
   place-content: center;
-
   pointer-events: none;
 }
 
-.mapASDIV {
-  grid-row: 1 / -1;
-  grid-column: 1 / -1;
-  height: 128px ;
-  width: 320px;
 
+/* Map/Game Objects */
+.object-box {
+  position: absolute;
 
- /* ok, but sprite goes off screen */
-  /* height: calc(var(--gridSize) * 9);
-  width: calc(var(--gridSize) * 16 * 2);  */
-  
+  background-color: aqua;
 
-/* BLUE WITCH */
-  /* background-image:
-            url(./assets/HillsLayer06.png),
-            url(./assets/HillsLayer05.png),
-            url(./assets/HillsLayer04.png),
-            url(./assets/HillsLayer03.png),
-            url(./assets/HillsLayer02.png),
-            url(./assets/HillsLayer01.png); */
-  /* background-repeat: repeat-x; */
-  /* background-size: auto calc(var(--gridSize) * 9); */
-
-
-  background-image: url(./assets/sam-pico-recreation.png);
-  image-rendering: pixelated;
-  background-size: contain;
-
-
-   /* AUTUMN TOWN */
-  /* background-image: url(./assets/Autumn-Town-My-Attempt.png);
-  background-repeat: no-repeat;
-  image-rendering: pixelated; 
-  background-size: 2000px 436px; */
-
+  /* Align this to the mapgrid */
+  top: calc(8 * var(--gridSize) * var(--scale-factor));
+  left: calc(23 * var(--gridSize) * var(--scale-factor));
 }
 
+.object-sprite {
+  width: 8px;
+  height: 8px;
+  z-index: 20;
+  image-rendering: pixelated;
+
+  transform: scale(var(--scale-factor));
+  transform-origin: top left;
+
+  background-image: url(./assets/red-salamander.png);
+  background-size: cover;
+  animation: spriteIdle steps(4) 650ms infinite;
+}
 
 .box {
   transition: all 200ms; /* State is reset by detecting the end of this */
   position: absolute;
 
-  /* Align this to the grid */
+  /* Align this to the camera grid */
   top: calc(2 * var(--gridSize) * var(--scale-factor));
   left: calc(1 * var(--gridSize) * var(--scale-factor));
 
@@ -242,8 +233,6 @@ img.map {
 
   transform: scale(var(--scale-factor));
   transform-origin: top left;
-
-  outline: none;
 
 }
 
@@ -291,6 +280,7 @@ img.map {
   /* AUTUMN TOWN */
   /* background-image: url(./assets/SpriteSheet_PlayerIdle_Night.png);
   animation: spriteIdle steps(10) 650ms infinite; */
+
 }
 
 .sprite.running, .sprite.straight.up.running {
@@ -324,8 +314,12 @@ img.map {
 @keyframes spriteIdle {
   /* 0% {background-position-y: 0} */
   /* 100% {background-position-y: -288px} */
+
+  /* 0% {background-position-x: 0}
+  100% {background-position-x: -320px} */
+
   0% {background-position-x: 0}
-  100% {background-position-x: -320px}
+  100% {background-position-x: -32px}
 }
 
 @keyframes spriteRun {

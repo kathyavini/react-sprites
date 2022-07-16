@@ -15,7 +15,7 @@ function CameraGrid() {
   const overlayDivs = gridArray.map((box, index) => (
     <div className="overlay-box" key={index}>
       <p>
-        {(index % numCols) + 1}-{Math.floor(index / numCols) + 1}
+        {Math.floor(index / numCols)}-{index % numCols}
       </p>
     </div>
   ));
@@ -28,16 +28,16 @@ interface MapGridProps {
 }
 
 function MapGrid({ position }: MapGridProps) {
-  const numRows = 40;
-  const numCols = 16;
+  const numRows = 16;
+  const numCols = 40;
   const numBoxes = numRows * numCols;
 
   const gridArray = Array(numBoxes).fill(0);
 
   const overlayDivs = gridArray.map((box, index) => (
-    <div className="map-box" key={index}>
+    <div className="map-grid-box" key={index}>
       <p>
-        {(index % numCols) + 1}-{Math.floor(index / numCols) + 1}
+        {Math.floor(index / numCols)}-{index % numCols}
       </p>
     </div>
   ));
@@ -51,6 +51,20 @@ function MapGrid({ position }: MapGridProps) {
       }}
     >
       {overlayDivs}
+    </motion.div>
+  );
+}
+
+function Object({ position }: MapGridProps) {
+  return (
+    <motion.div
+      className="object-box"
+      animate={{
+        y: -position[1],
+        x: -position[0],
+      }}
+    >
+      <div className="object-sprite"></div>
     </motion.div>
   );
 }
@@ -74,6 +88,7 @@ function App() {
             }}
           />
           <MapGrid position={position} />
+          <Object position={position} />
         </div>
 
         {/* <CameraGrid /> */}
