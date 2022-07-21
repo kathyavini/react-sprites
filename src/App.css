@@ -47,6 +47,9 @@
 
   /* Enlargement of all assets */
   --scale-factor: 10; 
+
+  --initialX: 8;
+  --initialY: 8;
 }
 
 @media (hover: none) {
@@ -114,7 +117,7 @@ body {
   height: 100vh; */
 
   position: relative;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 
 /* Camera */
@@ -182,6 +185,28 @@ img.map {
   pointer-events: none;
 }
 
+.position-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: white;
+}
+
+/* I don't really think this has to be an object on the map */
+.boundary {
+  position: absolute;
+
+  height: calc(var(--gridSize) * var(--scale-factor));
+  width: calc(var(--gridSize) * var(--scale-factor));
+  background-color: hsla(0, 90%, 70%, .8);
+  
+
+  z-index: 30;
+
+  top: calc(8 * var(--gridSize) * var(--scale-factor));
+  left: calc(10 * var(--gridSize) * var(--scale-factor));
+}
+
 
 /* Map/Game Objects */
 .object-box {
@@ -213,8 +238,12 @@ img.map {
   position: absolute;
 
   /* Align this to the camera grid */
-  top: calc(2 * var(--gridSize) * var(--scale-factor));
-  left: calc(1 * var(--gridSize) * var(--scale-factor));
+  /* top: calc(2 * var(--gridSize) * var(--scale-factor));
+  left: calc(1 * var(--gridSize) * var(--scale-factor)); */
+
+/* Align to map grid for consistency */
+  top: calc(var(--initialY) * var(--gridSize) * var(--scale-factor));
+  left: calc(var(--initialX) * var(--gridSize) * var(--scale-factor));
 
   /* height: calc(8px *var(--scale-factor));
   width: calc(8px *var(--scale-factor)); */

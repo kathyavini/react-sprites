@@ -7,9 +7,14 @@ import { KeyboardControls } from './KeyboardControls';
 interface SpriteBoxProps {
   position: number[];
   setPosition: React.Dispatch<React.SetStateAction<number[]>>;
+  checkCollisions: (arg0: number, arg1: number) => boolean;
 }
 
-export function SpriteBox({ position, setPosition }: SpriteBoxProps) {
+export function SpriteBox({
+  position,
+  setPosition,
+  checkCollisions,
+}: SpriteBoxProps) {
   const [jumping, setJumping] = useState(false);
   const [running, setRunning] = useState(false);
   const [directionX, setDirectionX] = useState('');
@@ -27,6 +32,7 @@ export function SpriteBox({ position, setPosition }: SpriteBoxProps) {
     setDirectionY,
     position,
     setPosition,
+    checkCollisions,
   };
 
   let jumpHeight = 70;

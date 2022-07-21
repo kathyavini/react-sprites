@@ -11,6 +11,7 @@ interface KeyboardControlsProps {
   setDirectionX: React.Dispatch<React.SetStateAction<string>>;
   directionY: string;
   setDirectionY: React.Dispatch<React.SetStateAction<string>>;
+  checkCollisions: (arg0: number, arg1: number) => boolean;
 }
 export function KeyboardControls({
   position,
@@ -23,19 +24,10 @@ export function KeyboardControls({
   setDirectionX,
   directionY,
   setDirectionY,
+  checkCollisions,
 }: KeyboardControlsProps) {
-  // to limit the number of moves which can be done at once (to prevent lag from too many re-renders; I'd like to create a better approach later)
-  let keyCount = 0;
-
-  // These should match the CSS variables and eventually be imported from a game object
-  const gridSize = 8; // in pixels
-  const scaleFactor = 10;
-
-  let step = gridSize * scaleFactor;
-
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('keyup', handleKeyRelease);
 
     //// Let's return to this idea
     // let keyMap = {
@@ -45,45 +37,44 @@ export function KeyboardControls({
     //   jump: false,
     // };
 
-    function handleKeyRelease(event: any) {
-      keyCount = 0;
-    }
-
     function handleKeyDown(event: any) {
       event.preventDefault();
       event.stopPropagation();
 
       const key = event.key;
 
-      // console.log({ key });
-
-      keyCount++;
-      if (keyCount > 15) return;
-
       switch (key) {
         case 'd':
         case 'ArrowRight':
           setRunning(true);
           setDirectionX('right');
-          setPosition((prev) => [prev[0] + step, prev[1]]);
+          if (!checkCollisions(0, 1)) {
+            setPosition((prev) => [prev[0], prev[1] + 1]);
+          }
           break;
         case 'a':
         case 'ArrowLeft':
           setRunning(true);
           setDirectionX('left');
-          setPosition((prev) => [prev[0] - step, prev[1]]);
+          if (!checkCollisions(position[0], position[1] - 1)) {
+            setPosition((prev) => [prev[0], prev[1] - 1]);
+          }
           break;
         case 'w':
         case 'ArrowUp':
           setRunning(true);
           setDirectionY('up');
-          setPosition((prev) => [prev[0], prev[1] - step]);
+          if (!checkCollisions(position[0] - 1, position[1])) {
+            setPosition((prev) => [prev[0] - 1, prev[1]]);
+          }
           break;
         case 's':
         case 'ArrowDown':
           setDirectionY('down');
           setRunning(true);
-          setPosition((prev) => [prev[0], prev[1] + step]);
+          if (!checkCollisions(position[0] + 1, position[1])) {
+            setPosition((prev) => [prev[0] + 1, prev[1]]);
+          }
           break;
         case ' ':
           if (!jumping) {
@@ -93,7 +84,6 @@ export function KeyboardControls({
     }
     return function cleanup() {
       document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('keyup', handleKeyRelease);
     };
   }, []);
 
