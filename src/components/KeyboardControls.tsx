@@ -3,26 +3,18 @@ import { useEffect } from 'react';
 interface KeyboardControlsProps {
   position: number[];
   setPosition: React.Dispatch<React.SetStateAction<number[]>>;
-  jumping: boolean;
   setJumping: React.Dispatch<React.SetStateAction<boolean>>;
-  running: boolean;
   setRunning: React.Dispatch<React.SetStateAction<boolean>>;
-  directionX: string;
   setDirectionX: React.Dispatch<React.SetStateAction<string>>;
-  directionY: string;
   setDirectionY: React.Dispatch<React.SetStateAction<string>>;
   checkCollisions: (arg0: number, arg1: number) => boolean;
 }
 export function KeyboardControls({
   position,
   setPosition,
-  jumping,
   setJumping,
-  running,
   setRunning,
-  directionX,
   setDirectionX,
-  directionY,
   setDirectionY,
   checkCollisions,
 }: KeyboardControlsProps) {
@@ -48,38 +40,45 @@ export function KeyboardControls({
         case 'ArrowRight':
           setRunning(true);
           setDirectionX('right');
-          if (!checkCollisions(0, 1)) {
-            setPosition((prev) => [prev[0], prev[1] + 1]);
-          }
+          // I don't love that I set the position even if there is no change, but it seems like the best way to access the current value, short of maybe putting position in context
+          setPosition((prev) => [
+            prev[0],
+            checkCollisions(prev[0], prev[1] + 1) ? prev[1] : prev[1] + 1,
+          ]);
           break;
         case 'a':
         case 'ArrowLeft':
           setRunning(true);
           setDirectionX('left');
-          if (!checkCollisions(position[0], position[1] - 1)) {
-            setPosition((prev) => [prev[0], prev[1] - 1]);
-          }
+          setPosition((prev) => [
+            prev[0],
+            checkCollisions(prev[0], prev[1] - 1) ? prev[1] : prev[1] - 1,
+          ]);
           break;
         case 'w':
         case 'ArrowUp':
           setRunning(true);
           setDirectionY('up');
-          if (!checkCollisions(position[0] - 1, position[1])) {
-            setPosition((prev) => [prev[0] - 1, prev[1]]);
-          }
+          // if (!checkCollisions(position[0] - 1, position[1])) {
+          setPosition((prev) => [
+            checkCollisions(prev[0] - 1, prev[1]) ? prev[0] : prev[0] - 1,
+            prev[1],
+          ]);
+          // }
           break;
         case 's':
         case 'ArrowDown':
           setDirectionY('down');
           setRunning(true);
-          if (!checkCollisions(position[0] + 1, position[1])) {
-            setPosition((prev) => [prev[0] + 1, prev[1]]);
-          }
+          setPosition((prev) => [
+            checkCollisions(prev[0] + 1, prev[1]) ? prev[0] : prev[0] + 1,
+            prev[1],
+          ]);
           break;
         case ' ':
-          if (!jumping) {
-            setJumping(true);
-          }
+          // if (!jumping) {
+          setJumping(true);
+        // }
       }
     }
     return function cleanup() {

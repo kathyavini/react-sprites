@@ -1,9 +1,9 @@
-import './MobileControls.css';
+import '../styles/MobileControls.css';
 
 interface MobileControlsProps {
   position: number[];
   setPosition: React.Dispatch<React.SetStateAction<number[]>>;
-  jumping: boolean;
+  // jumping: boolean;
   setJumping: React.Dispatch<React.SetStateAction<boolean>>;
   running: boolean;
   setRunning: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,7 +15,7 @@ interface MobileControlsProps {
 export function MobileControls({
   position,
   setPosition,
-  jumping,
+  // jumping,
   setJumping,
   running,
   setRunning,
@@ -34,13 +34,13 @@ export function MobileControls({
     if (tapX > 20) {
       setRunning(true);
       setDirectionX('right');
-      setPosition((prev) => [prev[0] + 25, prev[1]]);
+      setPosition((prev) => [prev[0] + 1, prev[1]]);
     }
 
     if (tapX < 10) {
       setRunning(true);
       setDirectionX('left');
-      setPosition((prev) => [prev[0] - 25, prev[1]]);
+      setPosition((prev) => [prev[0] - 1, prev[1]]);
     }
 
     // For straight down and up, which I want to animate a little differently
@@ -48,14 +48,14 @@ export function MobileControls({
       setRunning(true);
       setDirectionY('up');
       setDirectionX('straight');
-      setPosition((prev) => [prev[0], prev[1] - 25]);
+      setPosition((prev) => [prev[0], prev[1] - 1]);
     }
 
     if (tapX > 14 && tapX < 18 && tapY > 20) {
       setRunning(true);
       setDirectionY('down');
       setDirectionX('straight');
-      setPosition((prev) => [prev[0], prev[1] + 25]);
+      setPosition((prev) => [prev[0], prev[1] + 1]);
     }
 
     // Oops realized I needed this for straight left and right too
@@ -63,26 +63,26 @@ export function MobileControls({
       setRunning(true);
       setDirectionY('straight');
       setDirectionX('left');
-      setPosition((prev) => [prev[0] - 25, prev[1]]);
+      setPosition((prev) => [prev[0] - 1, prev[1]]);
     }
 
     if (tapY > 14 && tapY < 18 && tapX > 20) {
       setRunning(true);
       setDirectionY('straight');
       setDirectionX('right');
-      setPosition((prev) => [prev[0] + 25, prev[1]]);
+      setPosition((prev) => [prev[0] + 1, prev[1]]);
     }
 
     if (tapY < 10) {
       setRunning(true);
       setDirectionY('up');
-      setPosition((prev) => [prev[0], prev[1] - 25]);
+      setPosition((prev) => [prev[0], prev[1] - 1]);
     }
 
     if (tapY > 20) {
       setRunning(true);
       setDirectionY('down');
-      setPosition((prev) => [prev[0], prev[1] + 25]);
+      setPosition((prev) => [prev[0], prev[1] + 1]);
     }
   }
 

@@ -1,33 +1,58 @@
-import { useState, useRef, SetStateAction } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Sprite } from './Sprite';
 import { MobileControls } from './MobileControls';
 import { KeyboardControls } from './KeyboardControls';
+import { collisions } from '../gameConfig';
 
 interface SpriteBoxProps {
   position: number[];
   setPosition: React.Dispatch<React.SetStateAction<number[]>>;
-  checkCollisions: (arg0: number, arg1: number) => boolean;
+  step: number;
 }
 
-export function SpriteBox({
-  position,
-  setPosition,
-  checkCollisions,
-}: SpriteBoxProps) {
+export function SpriteBox({ position, setPosition, step }: SpriteBoxProps) {
   const [jumping, setJumping] = useState(false);
   const [running, setRunning] = useState(false);
   const [directionX, setDirectionX] = useState('');
   const [directionY, setDirectionY] = useState('');
 
+  // "Gravity" (= fall to the boundary box below)
+  useEffect(() => {
+    const boundaryRows = collisions.map((row) => {
+      return row[position[1]] === 1;
+    });
+
+    let ground = position[0] + 1; // default is ground under you
+    if (boundaryRows.includes(true)) {
+      for (let i = 0; i < boundaryRows.length; i++) {
+        if (boundaryRows[i] && i > position[0]) {
+          ground = i;
+          break;
+        }
+      }
+    }
+
+    // If you are floating over a defined collision, fall to ground
+    if (position[0] !== ground - 1) {
+      setPosition([ground - 1, position[1]]);
+    }
+  }, [position]);
+
+  let jumpHeight = 2 * step;
+
+  const checkCollisions = (row: number, column: number) => {
+    return collisions[row][column] ? true : false;
+  };
+
   // For passing into movement control components
   const spriteControls = {
     jumping,
-    running,
+    running, // needed by mobile but not keyboard controls
     setJumping,
     setRunning,
-    directionX,
-    directionY,
+    directionX, // needed by mobile but not keyboard controls
+    directionY, // needed by mobile but not keyboard controls
     setDirectionX,
     setDirectionY,
     position,
@@ -35,18 +60,10 @@ export function SpriteBox({
     checkCollisions,
   };
 
-  let jumpHeight = 70;
-
   return (
     <>
       <motion.div
         className="box"
-        // animate={{
-        //   y: jumping
-        //     ? [position[1], position[1] - jumpHeight, position[1]]
-        //     : position[1],
-        //   x: position[0],
-        // }}
         animate={
           jumping
             ? {

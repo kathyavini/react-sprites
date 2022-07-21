@@ -1,19 +1,35 @@
-import React from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { MapGrid } from './MapGrid';
+import mapImg from '../assets/sam-pico-recreation.png';
+import { BoundaryVisualization } from './BoundaryVisualization';
 
 type MapProps = {
-  position: number[];
+  positionDiff: number[];
+  step: number;
 };
 
-export const Map = ({ position }: MapProps) => {
+export const Map = ({ positionDiff, step }: MapProps) => {
   return (
     <motion.div
-      aria-label="boo"
-      className="map"
+      className="map-container"
       animate={{
-        y: -position[1],
-        x: -position[0],
+        y: -positionDiff[0] * step,
+        x: -positionDiff[1] * step,
       }}
-    ></motion.div>
+    >
+      <motion.img className="map" src={mapImg} aria-label="map" />
+      <MapGrid />
+      <Object />
+      <BoundaryVisualization />
+    </motion.div>
   );
 };
+
+function Object() {
+  return (
+    <motion.div className="object-box">
+      <div className="object-sprite"></div>
+    </motion.div>
+  );
+}
