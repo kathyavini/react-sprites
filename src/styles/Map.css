@@ -1,0 +1,21 @@
+/* Map and all objects situated within it */
+.map-container {
+    position: relative;
+  
+    width: calc(var(--mapImageWidth) * var(--scale-factor));
+    height: calc(var(--mapImageHeight) * var(--scale-factor));
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    /* Align this to the grid */
+    top: calc(var(--mapOffsetY) * var(--gridSize) * var(--scale-factor));
+    left: calc(var(--mapOffsetX) * var(--gridSize) * var(--scale-factor));
+  }
+  
+  img.map {
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+  }

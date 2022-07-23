@@ -1,5 +1,58 @@
 :root {
-  --font-size-main: calc(10px + 2vmin);
+
+  /*-----------------------------------------------*/
+  /* Map - These must be set the same as in gameConfig.ts */
+    --gridSize: 8px;
+
+    /* Enlargement of all assets */
+    --scale-factor: 10;
+
+    --mapRows: 16;
+    --mapCols: 40;
+
+    /* Initial location of hero sprite -- set in GameConfig*/
+    --initialY: 8;
+    --initialX: 1;
+
+    /* position of hero sprite relative to camera */
+    --spriteOffsetX: 3;
+    --spriteOffsetY: 3;
+  
+    /* initial shift of map -- to achieve initialY and initialX*/
+    --mapOffsetY: calc(-1 * (var(--initialY) - var(--spriteOffsetY)));
+    --mapOffsetX: calc(-1 * (var(--initialX) - var(--spriteOffsetX)));
+
+
+    /* dimensions of map image */
+    --mapImageWidth: 320px;
+    --mapImageHeight: 128px;
+
+  /*-----------------------------------------------*/
+  
+  /* Camera */
+  --cameraRows: 8;
+  --cameraCols: 8;
+
+  --blockLocationY: 8;
+  --blockLocationX: 10;
+
+
+   /*----------------------------------------------*/
+  /* Hero Sprite - All in CSS variables; nothing sets these in gameConfig.ts at the moment */
+
+  /* --hero-base: url(/sam-pico-ghost.png);
+  --hero-width: 8px;
+  --hero-height: 8px;
+  --hero-scale: 1; */
+
+   /* Hero scale is the factor to make the sprite one box of the map. For some reason calc is not working but I think it should be gridSize / hero-width */
+
+  --hero-base: url(/PlayerIdle_Night.png);
+  --hero-width: 32px;
+  --hero-height: 32px; 
+  --hero-scale: .25;
+
+  /*-----------------------------------------------*/
 
   --main-font: 'IBM Plex Mono', monospace;
   --secondary-font: 'IBM Plex Serif', serif;
@@ -7,34 +60,11 @@
   --white: white;
   --background: #060606; /* From pico tileset img*/
 
-  /* First attempt, ignore */
-  --thumb-scale-factor: 1.75; /* for easy tapping */
-  --char-scale-factor: 1.25; /* char scale factor; needs to be a little bigger */
 
 
-  /* Camera */
-  --gridRows: 8;
-  --gridCols: 8;
-
-  /* From PICO tileset */
-  --gridSize: 8px;
-
-  /* Enlargement of all assets */
-  --scale-factor: 10; 
-
-  --initialX: 8;
-  --initialY: 8;
-
-  --blockLocationY: 8;
-  --blockLocationX: 10;
 }
 
 @media (hover: none) {
-  :root {
-    --char-scale-factor: 2;
-    --thumb-scale-factor: 3;
-  }
-
   .camera {
     margin: 0;
   }
@@ -46,7 +76,6 @@
 }
 
 body {
-  /* background-color: var(--mauve2); */
   display: grid;
   place-content: center;
 
@@ -64,101 +93,23 @@ body {
 }
 
 
-/* This element sets the grid for the game, which I'm not using in any way yet */
 .game-container {
   height: 90vh;
   width: 90vw;
   display: grid;
   place-content: center;
-  /* grid-template-rows: repeat(var(--gridRows), var(--gridSize));
-  grid-template-columns: repeat(var(--gridCols), var(--gridSize)); */
-
   position: relative;
 }
 
+/* Sets the visible portion of the map */
 .camera {
   background-color: var(--background);
-  /* a bit of grid-based margin */
-  /* margin: calc(var(--gridSize)) calc(var(--gridSize)/2);
-  grid-row: 1 / -1;
-  grid-column: 1 / -1;
-  
-  width: calc(var(--gridSize) * 15);
-  height: calc(var(--gridSize) * 7); */
 
-  width: calc(8 * var(--gridSize) * var(--scale-factor));
-  height: calc(8 * var(--gridSize) * var(--scale-factor));
-
-  /* width: 100vw;
-  height: 100vh; */
+  width: calc(var(--cameraCols) * var(--gridSize) * var(--scale-factor));
+  height: calc(var(--cameraRows) * var(--gridSize) * var(--scale-factor));
 
   position: relative;
-  /* overflow: hidden; */
-}
-
-/* Camera */
-.overlay-grid {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(8, 1fr);
-
-  pointer-events: none;
-}
-
-.overlay-box {
-  display: grid;
-  place-content: center;
-
-  pointer-events: none;
-}
-
-/* Take from map image dimensions */
-.map-container {
-  position: relative;
-
-  width: calc(320px * var(--scale-factor));
-  height: calc(128px * var(--scale-factor));
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* Align this to the grid */
-  top: calc(-6 * var(--gridSize) * var(--scale-factor));
-  left: calc(-7 * var(--gridSize) * var(--scale-factor));
-}
-
-img.map {
-  width: 100%;
-  height: auto;
-  image-rendering: pixelated;
-}
-
-/* Map */
-.map-grid {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  display: grid;
-  grid-template-columns: repeat(40, 1fr);
-  grid-template-rows: repeat(16, 1fr);
-
-  pointer-events: none;
-}
-
-.map-grid-box {
-  display: grid;
-  place-content: center;
-  pointer-events: none;
+  overflow: hidden;
 }
 
 .position-label {
@@ -168,35 +119,11 @@ img.map {
   color: white;
 }
 
-/* I don't really think this has to be an object on the map */
-.boundary {
-  position: absolute;
-
-  height: calc(var(--gridSize) * var(--scale-factor));
-  width: calc(var(--gridSize) * var(--scale-factor));
-  background-color: hsla(0, 90%, 70%, .8);
-  
-
-  z-index: 30;
-
-}
-
-.boundary-2 {
-  position: absolute;
-
-  height: calc(var(--gridSize) * var(--scale-factor));
-  width: calc(var(--gridSize) * var(--scale-factor));
-  background-color: hsla(0, 90%, 70%, .8);
-  
-
-  z-index: 30;
-
-  top: calc(4 * var(--gridSize) * var(--scale-factor));
-  left: calc(10 * var(--gridSize) * var(--scale-factor));
-}
 
 
-/* Map/Game Objects */
+
+/* Map/Game Objects -- these should be positioned inline like boundary blocks; this is just a temp demo*/
+
 .object-box {
   position: absolute;
 
@@ -220,137 +147,3 @@ img.map {
   background-size: cover;
   animation: spriteIdle steps(4) 650ms infinite;
 }
-
-.box {
-  transition: all 200ms; /* State is reset by detecting the end of this */
-  position: absolute;
-
-  /* Align this to the camera grid */
-  top: calc(2 * var(--gridSize) * var(--scale-factor));
-  left: calc(1 * var(--gridSize) * var(--scale-factor));
-
-  z-index: 30;
-
-/* Align to map grid for consistency */
-  /* top: calc(var(--initialY) * var(--gridSize) * var(--scale-factor));
-  left: calc(var(--initialX) * var(--gridSize) * var(--scale-factor)); */
-
-  /* height: calc(8px *var(--scale-factor));
-  width: calc(8px *var(--scale-factor)); */
-
-}
-
-/* PICO SET */
-.sprite {
-  width: 8px;
-  height: 8px;
-  z-index: 25;
-  image-rendering: pixelated;
-
-  background-image: url(./assets/sam-pico-ghost.png);
-  background-size: cover;
-
-  transform: scale(var(--scale-factor));
-  transform-origin: top left;
-
-}
-
- /* AUTUMN TOWN */
-/* .sprite {
-  width: 32px;
-  height: 32px;
-  z-index: 25;
-  background-position: 0 0;
-  image-rendering: pixelated;
-  transform: scale(2);
-} */
-
-
-/* Take dimensions from file */
-  /* BLUE WITCH */
-/*
-.sprite {
-  width: 32px;
-  height: 48px;
-  z-index: 25;
-  background-position: 0 0;
-  image-rendering: pixelated;
-  transform: scale(calc(var(--scale-factor)*var(--char-scale-factor)));
-}
-
-*/
-
-.sprite.left, .sprite.down.left, .sprite.up.left {
-  /* BLUE WITCH */
-  /* transform: scale(calc(var(--scale-factor)*var(--char-scale-factor))) scaleX(-1); */
-  /* AUTUMN TOWN */
-  /* transform: scale(2) scaleX(-1); */
-
-  transform: scale(var(--scale-factor)) scaleX(-1);
-  transform-origin: top right;
-}
-
-
-.sprite.idle {
-  /* BLUE WITCH */
-  /* background-image: url(./assets/B_witch_idle.png);
-  animation: spriteIdle steps(6) 650ms infinite; */
-
-  /* AUTUMN TOWN */
-  /* background-image: url(./assets/SpriteSheet_PlayerIdle_Night.png);
-  animation: spriteIdle steps(10) 650ms infinite; */
-
-}
-
-.sprite.running, .sprite.straight.up.running {
-  /* BLUE WITCH */
-  /* width: 32px;
-  height: 48px;
-  background-image: url(./assets/B_witch_run.png);
-  animation: spriteRun steps(8) 550ms infinite; */
-
- /* AUTUMN TOWN */
-  /* background-image: url(./assets/SpriteSheet_PlayerWalk_Night.png);
-  animation: spriteRun steps(10) 550ms infinite; */
-}
-
-.sprite.jump {
-  /* BLUE WITCH */
-
-  /* width: 48px;
-  height: 48px;
-  background-image: url(./assets/B_witch_charge.png);
-  z-index: 5;
-  animation: spriteJump steps(5) 550ms infinite; */
-
-  /* AUTUMN TOWN */
-  /* background-image: url(./assets/SpriteSheet_PlayerJump_Night.png);
-  z-index: 5;
-  animation: spriteJump steps(5) 550ms infinite; */
-}
-
-
-@keyframes spriteIdle {
-  /* 0% {background-position-y: 0} */
-  /* 100% {background-position-y: -288px} */
-
-  /* 0% {background-position-x: 0}
-  100% {background-position-x: -320px} */
-
-  0% {background-position-x: 0}
-  100% {background-position-x: -32px}
-}
-
-@keyframes spriteRun {
-  /* 0% {background-position-y: 0}
-  100% {background-position-y: -384px} */  0% {background-position-x: 0}
-  100% {background-position-x: -320px}
-}
-
-@keyframes spriteJump {
-  /* 0% {background-position-y: 0}
-  100% {background-position-y: -240px} */
-  0% {background-position-x: 0}
-  100% {background-position-x: -160px}
-}
-

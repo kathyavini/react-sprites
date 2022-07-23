@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MapGrid } from './MapGrid';
-import mapImg from '../assets/sam-pico-recreation.png';
-import { BoundaryVisualization } from './BoundaryVisualization';
+import { BoundaryBlocks } from './BoundaryBlocks';
+import { map } from '../gameConfig';
+import '../styles/Map.css';
 
 type MapProps = {
   positionDiff: number[];
@@ -18,10 +18,10 @@ export const Map = ({ positionDiff, step }: MapProps) => {
         x: -positionDiff[1] * step,
       }}
     >
-      <motion.img className="map" src={mapImg} aria-label="map" />
+      <motion.img className="map" src={map.url} aria-label="map" />
       <MapGrid />
       <Object />
-      <BoundaryVisualization />
+      <BoundaryBlocks />
     </motion.div>
   );
 };

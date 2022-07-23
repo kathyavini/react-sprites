@@ -1,0 +1,9 @@
+.boundary {
+    position: absolute;
+  
+    height: calc(var(--gridSize) * var(--scale-factor));
+    width: calc(var(--gridSize) * var(--scale-factor));
+    background-color: hsla(0, 90%, 70%, .8);
+  
+    z-index: 30;
+}

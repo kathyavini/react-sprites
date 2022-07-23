@@ -4,6 +4,7 @@ import { Sprite } from './Sprite';
 import { MobileControls } from './MobileControls';
 import { KeyboardControls } from './KeyboardControls';
 import { collisions } from '../gameConfig';
+import '../styles/SpriteBox.css';
 
 interface SpriteBoxProps {
   position: number[];
@@ -16,28 +17,6 @@ export function SpriteBox({ position, setPosition, step }: SpriteBoxProps) {
   const [running, setRunning] = useState(false);
   const [directionX, setDirectionX] = useState('');
   const [directionY, setDirectionY] = useState('');
-
-  // "Gravity" (= fall to the boundary box below)
-  useEffect(() => {
-    const boundaryRows = collisions.map((row) => {
-      return row[position[1]] === 1;
-    });
-
-    let ground = position[0] + 1; // default is ground under you
-    if (boundaryRows.includes(true)) {
-      for (let i = 0; i < boundaryRows.length; i++) {
-        if (boundaryRows[i] && i > position[0]) {
-          ground = i;
-          break;
-        }
-      }
-    }
-
-    // If you are floating over a defined collision, fall to ground
-    if (position[0] !== ground - 1) {
-      setPosition([ground - 1, position[1]]);
-    }
-  }, [position]);
 
   let jumpHeight = 2 * step;
 
@@ -63,7 +42,7 @@ export function SpriteBox({ position, setPosition, step }: SpriteBoxProps) {
   return (
     <>
       <motion.div
-        className="box"
+        className="sprite-box"
         animate={
           jumping
             ? {

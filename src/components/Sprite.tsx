@@ -1,3 +1,5 @@
+import '../styles/Sprite.css';
+
 interface SpriteProps {
   mode: string;
   directionX: string;

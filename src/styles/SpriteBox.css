@@ -1,0 +1,10 @@
+.sprite-box {
+    transition: all 200ms; /* State is reset by detecting the end of this */
+    position: absolute;
+  
+    /* Align this to the camera grid */
+    top: calc(var(--spriteOffsetY) * var(--gridSize) * var(--scale-factor));
+    left: calc(var(--spriteOffsetX) * var(--gridSize) * var(--scale-factor));
+  
+    z-index: 30;
+  }

@@ -1,7 +1,8 @@
-import { boundaries } from '../gameConfig';
+import { boundaries, map } from '../gameConfig';
+import '../styles/BoundaryBlocks.css';
 
-// Just for visualizing on the map; they will function whether or not they are visible due to importing the boundary array direction in SpriteBox
-export function BoundaryVisualization() {
+// Just for visualizing on the map; they will function whether or not they are displayed so this is an optional component
+export function BoundaryBlocks() {
   const allBoundaryBlocks = boundaries.map((blockLocation, index) => (
     <BoundaryBlock
       locationY={blockLocation[0]}
@@ -12,18 +13,15 @@ export function BoundaryVisualization() {
 
   return <>{allBoundaryBlocks}</>;
 }
-// These need to be created programatically from the config file...
+
 interface BoundaryBlockProps {
   locationY: number;
   locationX: number;
 }
 function BoundaryBlock({ locationY, locationX }: BoundaryBlockProps) {
-  const gridSize = 8;
-  const scaleFactor = 10;
-
   const locationStyle = {
-    top: `${locationY * gridSize * scaleFactor}px`,
-    left: `${locationX * gridSize * scaleFactor}px`,
+    top: `${locationY * map.gridSize * map.scaleFactor}px`,
+    left: `${locationX * map.gridSize * map.scaleFactor}px`,
   };
 
   return <div className="boundary" style={locationStyle}></div>;
