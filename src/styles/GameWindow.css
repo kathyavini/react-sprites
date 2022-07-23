@@ -1,0 +1,52 @@
+/* Sets the visible portion of the map */
+.camera {
+    background-color: var(--background);
+  
+    width: calc(var(--cameraCols) * var(--gridSize) * var(--scale-factor));
+    height: calc(var(--cameraRows) * var(--gridSize) * var(--scale-factor));
+  
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .position-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
+  }
+  
+  
+  
+  
+  /* Map/Game Objects -- these should be positioned inline like boundary blocks; this is just a temp demo*/
+  
+  .object-box {
+    position: absolute;
+  
+    background-color: aqua;
+  
+    /* Align this to the mapgrid */
+    top: calc(8 * var(--gridSize) * var(--scale-factor));
+    left: calc(23 * var(--gridSize) * var(--scale-factor));
+  }
+  
+  .object-sprite {
+    width: 8px;
+    height: 8px;
+    z-index: 20;
+    image-rendering: pixelated;
+  
+    transform: scale(var(--scale-factor));
+    transform-origin: top left;
+  
+    background-image: url(./assets/red-salamander.png);
+    background-size: cover;
+    animation: spriteIdle steps(4) 650ms infinite;
+  }
+
+  @media (hover: none) {
+    .camera {
+      margin: 0;
+    }
+  }

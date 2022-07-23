@@ -1,38 +1,55 @@
-// Ideally these would generate the corresponding CSS variables as well. Right now they have to be manually entered with the same values
+/* ---------- CAMERA ---------- */
+// Camera is the visible portion of the game map
+export const camera = {
+  rows: 8,
+  columns: 8,
 
-/* How your animation spritesheets are laid out -- sets all animations of Sprite component */
-export const verticalSpriteSheets = false;
+  // position of hero sprite relative to camera
+  spriteOffsetX: 3,
+  spriteOffsetY: 3,
+};
 
+/* --- CHARACTER SPRITES --- */
+/* How your hero character animation spritesheets are laid out */
+export const verticalSpriteSheets = true;
+
+/* ---------- MAP ---------- */
 export const map = {
   gridSize: 8,
   scaleFactor: 10,
   url: '/sam-pico-recreation.png',
+  imgWidth: 320,
+  imgHeight: 128,
   rows: 16,
   columns: 40,
   gravity: false,
+
+  // initial location of hero sprite on map
+  initialY: 8,
+  initialX: 1,
 };
 
 /* Intial position of hero sprite */
 export const initialY = 8;
 export const initialX = 1;
 
-// MAP BOUNDARIES
-/* Currently walls are created programmatically boundaries/platforms are entered manually */
+/* --- MAP BOUNDARIES --- */
+// Currently walls (edges of the map) are created programmatically, and boundaries/platforms are entered manually
 
-/* The last block on all sides cannot be entered */
-let mapWalls = [];
+// The last block on all sides cannot be entered and automatically become the map perimeter
+let mapPerimeter = [];
 
 for (let i = 0; i < map.rows; i++) {
-  mapWalls.push([i, 0]);
-  mapWalls.push([i, map.columns - 1]);
+  mapPerimeter.push([i, 0]);
+  mapPerimeter.push([i, map.columns - 1]);
 }
 
 for (let j = 0; j < map.columns; j++) {
-  mapWalls.push([0, j]);
-  mapWalls.push([map.rows - 1, j]);
+  mapPerimeter.push([0, j]);
+  mapPerimeter.push([map.rows - 1, j]);
 }
 
-/* Boundaries are the set of ground tiles (the list of locations that should be blocked) while collisions are a "0" or "1" array for each grid element of the map. */
+/* Boundaries are the set of boundary tiles (the list of locations that should be blocked or that form the ground) while collisions are a "0" or "1" array for each grid element of the map, with 1 indicting where a boundary occurs */
 export const boundaries = [
   [8, 10],
   [7, 11],
@@ -51,7 +68,7 @@ export const boundaries = [
   [9, 23],
   [9, 24],
   [9, 25],
-  ...mapWalls,
+  ...mapPerimeter,
 ];
 
 export let collisions = Array(map.rows)

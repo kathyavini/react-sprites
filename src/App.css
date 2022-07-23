@@ -1,43 +1,11 @@
 :root {
-
-  /*-----------------------------------------------*/
-  /* Map - These must be set the same as in gameConfig.ts */
-    --gridSize: 8px;
-
-    /* Enlargement of all assets */
-    --scale-factor: 10;
-
-    --mapRows: 16;
-    --mapCols: 40;
-
-    /* Initial location of hero sprite -- set in GameConfig*/
-    --initialY: 8;
-    --initialX: 1;
-
-    /* position of hero sprite relative to camera */
-    --spriteOffsetX: 3;
-    --spriteOffsetY: 3;
+  /* Custom CSS properties are set in the useConfig hook called within App.tsx */
   
-    /* initial shift of map -- to achieve initialY and initialX*/
+    /* initial shift of map so that hero sprite appears in the correct position relative to the camera window (=spriteOffset) and in the correct square of the map (=initalX/initialY)  */
     --mapOffsetY: calc(-1 * (var(--initialY) - var(--spriteOffsetY)));
     --mapOffsetX: calc(-1 * (var(--initialX) - var(--spriteOffsetX)));
 
-
-    /* dimensions of map image */
-    --mapImageWidth: 320px;
-    --mapImageHeight: 128px;
-
-  /*-----------------------------------------------*/
-  
-  /* Camera */
-  --cameraRows: 8;
-  --cameraCols: 8;
-
-  --blockLocationY: 8;
-  --blockLocationX: 10;
-
-
-   /*----------------------------------------------*/
+  /*-------------------------------------*/
   /* Hero Sprite - All in CSS variables; nothing sets these in gameConfig.ts at the moment */
 
   /* if there are missing animations for idle/run/jump it will default to the --hero-base image with no animation */
@@ -55,12 +23,12 @@
   --hero-run: var(--hero-base);  
   --hero-jump: var(--hero-base); */
 
-   /* Hero scale is the factor to make the sprite one box of the map. I think calc doesn't work here because they are both values with px units, but it should be gridSize / hero-width */
+   /* Hero scale is the factor to make the sprite one box of the map. *Boundaries will not work as expected otherwise!* I think calc doesn't work here because they are both values with px units, but it should be gridSize / hero-width */
 
-  --hero-base: url(/PlayerIdle_Night.png);
+  /* --hero-base: url(/PlayerIdle_Night.png);
   --hero-width: 32px;
   --hero-height: 32px; 
-  --hero-scale: .5;
+  --hero-scale: .25;
 
   --hero-speed: 1s;
 
@@ -74,11 +42,11 @@
 
   --hero-jump: url(/PlayerJump_Night.png);
   --hero-jump-steps: 5;
-  --hero-jump-end: 160px;
+  --hero-jump-end: 160px; */
 
 
 
-  /* --hero-base: url(/B_witch_idle.png);
+  --hero-base: url(/B_witch_idle.png);
   --hero-width: 32px;
   --hero-height: 48px; 
   --hero-scale: .25;
@@ -94,7 +62,7 @@
   --hero-jump: url(/B_witch_charge.png);
   --hero-jump-width: 48px;
   --hero-jump-steps: 5;
-  --hero-jump-end: 240px; */
+  --hero-jump-end: 240px;
 
 
 
@@ -105,15 +73,6 @@
 
   --white: white;
   --background: #060606; /* From pico tileset img*/
-
-
-
-}
-
-@media (hover: none) {
-  .camera {
-    margin: 0;
-  }
 }
 
 
@@ -147,49 +106,3 @@ body {
   position: relative;
 }
 
-/* Sets the visible portion of the map */
-.camera {
-  background-color: var(--background);
-
-  width: calc(var(--cameraCols) * var(--gridSize) * var(--scale-factor));
-  height: calc(var(--cameraRows) * var(--gridSize) * var(--scale-factor));
-
-  position: relative;
-  overflow: hidden;
-}
-
-.position-label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: white;
-}
-
-
-
-
-/* Map/Game Objects -- these should be positioned inline like boundary blocks; this is just a temp demo*/
-
-.object-box {
-  position: absolute;
-
-  background-color: aqua;
-
-  /* Align this to the mapgrid */
-  top: calc(8 * var(--gridSize) * var(--scale-factor));
-  left: calc(23 * var(--gridSize) * var(--scale-factor));
-}
-
-.object-sprite {
-  width: 8px;
-  height: 8px;
-  z-index: 20;
-  image-rendering: pixelated;
-
-  transform: scale(var(--scale-factor));
-  transform-origin: top left;
-
-  background-image: url(./assets/red-salamander.png);
-  background-size: cover;
-  animation: spriteIdle steps(4) 650ms infinite;
-}
