@@ -1,4 +1,5 @@
 import '../styles/Sprite.css';
+import { verticalSpriteSheets } from '../gameConfig';
 
 interface SpriteProps {
   mode: string;
@@ -10,9 +11,9 @@ interface SpriteProps {
 export function Sprite({ mode, directionX, directionY, running }: SpriteProps) {
   return (
     <div
-      className={`sprite ${mode} ${directionX} ${directionY} ${
-        running ? 'running' : ''
-      }`}
+      className={`sprite ${
+        verticalSpriteSheets ? 'vertical' : ''
+      } ${mode} ${directionX} ${directionY} ${running ? 'running' : ''}`}
     ></div>
   );
 }

@@ -40,17 +40,63 @@
    /*----------------------------------------------*/
   /* Hero Sprite - All in CSS variables; nothing sets these in gameConfig.ts at the moment */
 
-  /* --hero-base: url(/sam-pico-ghost.png);
+  /* if there are missing animations for idle/run/jump it will default to the --hero-base image with no animation */
+
+  --hero-base: url(/sam-pico-ghost.png);
   --hero-width: 8px;
   --hero-height: 8px;
-  --hero-scale: 1; */
+  --hero-scale: 1;
 
-   /* Hero scale is the factor to make the sprite one box of the map. For some reason calc is not working but I think it should be gridSize / hero-width */
+  /* --hero-idle: var(--hero-base);
+  --hero-idle-steps: 1;
+  --hero-idle-width: 8px;
+  --hero-idle-height: 8px;
+
+  --hero-run: var(--hero-base);  
+  --hero-jump: var(--hero-base); */
+
+   /* Hero scale is the factor to make the sprite one box of the map. I think calc doesn't work here because they are both values with px units, but it should be gridSize / hero-width */
 
   --hero-base: url(/PlayerIdle_Night.png);
   --hero-width: 32px;
   --hero-height: 32px; 
+  --hero-scale: .5;
+
+  --hero-speed: 1s;
+
+  --hero-idle: url(/PlayerIdle_Night.png);
+  --hero-idle-steps: 10;
+  --hero-idle-end: 320px;
+
+  --hero-run: url(/PlayerWalk_Night.png);
+  --hero-run-steps: 10;
+  --hero-run-end: 320px;
+
+  --hero-jump: url(/PlayerJump_Night.png);
+  --hero-jump-steps: 5;
+  --hero-jump-end: 160px;
+
+
+
+  /* --hero-base: url(/B_witch_idle.png);
+  --hero-width: 32px;
+  --hero-height: 48px; 
   --hero-scale: .25;
+
+  --hero-idle: url(/B_witch_idle.png);
+  --hero-idle-steps: 6;
+  --hero-idle-end: 288px;
+
+  --hero-run: url(/B_witch_run.png);
+  --hero-run-steps: 8;
+  --hero-run-end: 384px;
+
+  --hero-jump: url(/B_witch_charge.png);
+  --hero-jump-width: 48px;
+  --hero-jump-steps: 5;
+  --hero-jump-end: 240px; */
+
+
 
   /*-----------------------------------------------*/
 

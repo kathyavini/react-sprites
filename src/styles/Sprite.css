@@ -12,78 +12,43 @@
     transform-origin: top left;
   }
   
-   /* AUTUMN TOWN */
-  /* .sprite {
-    width: 32px;
-    height: 32px;
-    z-index: 25;
-    background-position: 0 0;
-    image-rendering: pixelated;
-    transform: scale(2);
-  } */
-  
-  
-  /* Take dimensions from file */
-    /* BLUE WITCH */
-  /*
-  .sprite {
-    width: 32px;
-    height: 48px;
-    z-index: 25;
-    background-position: 0 0;
-    image-rendering: pixelated;
-    transform: scale(calc(var(--scale-factor)*var(--char-scale-factor)));
-  }
-  
-  */
-  
   .sprite.left, .sprite.down.left, .sprite.up.left {
-    /* BLUE WITCH */
-    /* transform: scale(calc(var(--scale-factor)*var(--char-scale-factor))) scaleX(-1); */
-    /* AUTUMN TOWN */
-    /* transform: scale(2) scaleX(-1); */
-  
     transform: scale(calc(var(--hero-scale) * var(--scale-factor))) scaleX(-1);
     transform-origin: top right;
   }
   
-  
   .sprite.idle {
-    /* BLUE WITCH */
-    /* background-image: url(./assets/B_witch_idle.png);
-    animation: spriteIdle steps(6) 650ms infinite; */
-  
-    /* AUTUMN TOWN */
-    /* background-image: url(./assets/SpriteSheet_PlayerIdle_Night.png);
-    animation: spriteIdle steps(10) 650ms infinite; */
-  
+    width: var(--hero-idle-width, var(--hero-width));
+    height: var(--hero-idle-height, var(--hero-height));
+    background-image: var(--hero-idle, var(--hero-base));
+    animation: spriteIdle steps(var(--hero-idle-steps, 1)) var(--hero-speed, 650ms) infinite;
+  }
+
+  .sprite.idle.vertical {
+    animation: spriteIdleVertical steps(var(--hero-idle-steps, 1)) var(--hero-speed, 650ms) infinite;
   }
   
-  .sprite.running, .sprite.straight.up.running {
-    /* BLUE WITCH */
-    /* width: 32px;
-    height: 48px;
-    background-image: url(./assets/B_witch_run.png);
-    animation: spriteRun steps(8) 550ms infinite; */
-  
-   /* AUTUMN TOWN */
-    /* background-image: url(./assets/SpriteSheet_PlayerWalk_Night.png);
-    animation: spriteRun steps(10) 550ms infinite; */
+  .sprite.running {
+   width: var(--hero-run-width, var(--hero-width));
+   height: var(--hero-run-height, var(--hero-height));
+    background-image: var(--hero-run, var(--hero-base));
+    animation: spriteRun steps(var(--hero-run-steps, 1)) var(--hero-speed, 650ms) infinite;
   }
-  
+
+  .sprite.running.vertical {
+    animation: spriteRunVertical steps(var(--hero-run-steps, 1)) var(--hero-speed, 650ms) infinite;
+  }
+
   .sprite.jump {
-    /* BLUE WITCH */
-  
-    /* width: 48px;
-    height: 48px;
-    background-image: url(./assets/B_witch_charge.png);
+    width: var(--hero-jump-width, var(--hero-width));
+    height: var(--hero-jump-height, var(--hero-height));
+    background-image: var(--hero-jump, var(--hero-base));
     z-index: 5;
-    animation: spriteJump steps(5) 550ms infinite; */
-  
-    /* AUTUMN TOWN */
-    /* background-image: url(./assets/SpriteSheet_PlayerJump_Night.png);
-    z-index: 5;
-    animation: spriteJump steps(5) 550ms infinite; */
+    animation: spriteJump steps(var(--hero-jump-steps, 1)) var(--hero-speed, 650ms) infinite;
+  }
+
+  .sprite.jump.vertical {
+    animation: spriteJumpVertical steps(var(--hero-jump-steps, 1)) var(--hero-speed, 650ms) infinite;
   }
   
   
@@ -91,23 +56,39 @@
     /* 0% {background-position-y: 0} */
     /* 100% {background-position-y: -288px} */
   
-    /* 0% {background-position-x: 0}
-    100% {background-position-x: -320px} */
-  
     0% {background-position-x: 0}
-    100% {background-position-x: -32px}
+    100% {background-position-x: var(--hero-idle-end, 0)}
   }
   
   @keyframes spriteRun {
     /* 0% {background-position-y: 0}
-    100% {background-position-y: -384px} */  0% {background-position-x: 0}
-    100% {background-position-x: -320px}
+    100% {background-position-y: -384px} */  
+    0% {background-position-x: 0}
+    100% {background-position-x: var(--hero-run-end, 0)}
   }
   
   @keyframes spriteJump {
     /* 0% {background-position-y: 0}
     100% {background-position-y: -240px} */
     0% {background-position-x: 0}
-    100% {background-position-x: -160px}
+    100% {background-position-x: var(--hero-jump-end, 0)}
+  }
+
+
+  /* These are set in the gameConfig file */
+
+  @keyframes spriteIdleVertical {
+    0% {background-position-y: 0}
+    100% {background-position-y: var(--hero-idle-end, 0)}
+  }
+  
+  @keyframes spriteRunVertical {
+    0% {background-position-y: 0}
+    100% {background-position-y: var(--hero-run-end, 0)}
+  }
+  
+  @keyframes spriteJumpVertical {
+    0% {background-position-y: 0}
+    100% {background-position-y: var(--hero-jump-end, 0)}
   }
   

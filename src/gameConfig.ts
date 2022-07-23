@@ -1,4 +1,8 @@
 // Ideally these would generate the corresponding CSS variables as well. Right now they have to be manually entered with the same values
+
+/* How your animation spritesheets are laid out -- sets all animations of Sprite component */
+export const verticalSpriteSheets = false;
+
 export const map = {
   gridSize: 8,
   scaleFactor: 10,

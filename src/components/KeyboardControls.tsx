@@ -41,10 +41,12 @@ export function KeyboardControls({
         case 'd':
         case 'ArrowRight':
           keyMap.right = false;
+          setRunning(false);
           break;
         case 'a':
         case 'ArrowLeft':
           keyMap.left = false;
+          setRunning(false);
           break;
         case 'w':
         case 'ArrowUp':
@@ -55,6 +57,7 @@ export function KeyboardControls({
           keyMap.down = false;
         case ' ':
           keyMap.jump = false;
+          setRunning(false);
         // }
       }
     }
@@ -73,7 +76,6 @@ export function KeyboardControls({
           setDirectionX('right');
           // I don't love that I set the position even if there is no change, but it seems like the best way to access the current value, short of maybe putting position in context
           if (keyMap.jump) {
-            console.log("I'm jumping while I move right");
             setPosition((prev) => [
               checkCollisions(prev[0] - 1, prev[1]) ||
               checkCollisions(prev[0] - 2, prev[1])
@@ -124,7 +126,6 @@ export function KeyboardControls({
           keyMap.jump = true;
 
           if (keyMap.right) {
-            console.log("I'm moving right while jumping!");
             setPosition((prev) => [
               checkCollisions(prev[0] - 1, prev[1]) ||
               checkCollisions(prev[0] - 2, prev[1])
