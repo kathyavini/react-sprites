@@ -1,33 +1,29 @@
 import { useEffect } from 'react';
-import { map, camera } from '../gameConfig';
-
-/* Pairs are CSS custom property names and their corresponding value taken from gameConfig */
-const gameProperties = [
-  /* Map */
-  ['--gridSize', `${map.gridSize}px`],
-  ['--scale-factor', `${map.scaleFactor}`],
-  ['--mapRows', `${map.rows}`],
-  ['--mapCols', `${map.columns}`],
-  ['--initialY', `${map.initialY}`],
-  ['--initialX', `${map.initialX}`],
-  ['--mapImageWidth', `${map.imgWidth}px`],
-  ['--mapImageHeight', `${map.imgHeight}px`],
-
-  /* Camera */
-  ['--spriteOffsetY', `${camera.spriteOffsetY}`],
-  ['--spriteOffsetX', `${camera.spriteOffsetX}`],
-  ['--cameraRows', `${camera.rows}`],
-  ['--cameraCols', `${camera.columns}`],
-];
+import { map, camera, hero } from '../gameConfig';
 
 function setCSSProperty(property: string, value: string) {
   document.documentElement.style.setProperty(property, value);
 }
 
+const gameProperties = [
+  { name: 'map', values: map },
+  { name: 'camera', values: camera },
+  { name: 'hero', values: hero },
+];
+
 export function useConfig() {
   useEffect(() => {
-    gameProperties.forEach((pair) => {
-      setCSSProperty(pair[0], pair[1]);
+    /* Creates a camel case CSS custom property prefixed with the name of the config object,
+       e.g. --mapGridSize, --cameraRows */
+    gameProperties.forEach((configObject) => {
+      for (let property in configObject.values) {
+        setCSSProperty(
+          `--${configObject.name}${property[0].toUpperCase()}${property.slice(
+            1
+          )}`,
+          configObject.values[property as keyof typeof configObject.values]
+        );
+      }
     });
   }, []);
 }

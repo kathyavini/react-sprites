@@ -3,8 +3,8 @@
     position: absolute;
   
     /* Align this to the camera grid */
-    top: calc(var(--spriteOffsetY) * var(--gridSize) * var(--scale-factor));
-    left: calc(var(--spriteOffsetX) * var(--gridSize) * var(--scale-factor));
+    top: calc(var(--cameraSpriteOffsetY) * var(--mapGridSize) * var(--mapScaleFactor));
+    left: calc(var(--cameraSpriteOffsetX) * var(--mapGridSize) * var(--mapScaleFactor));
   
     z-index: 30;
   }

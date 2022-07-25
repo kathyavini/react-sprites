@@ -2,8 +2,8 @@
 .camera {
     background-color: var(--background);
   
-    width: calc(var(--cameraCols) * var(--gridSize) * var(--scale-factor));
-    height: calc(var(--cameraRows) * var(--gridSize) * var(--scale-factor));
+    width: calc(var(--cameraColumns) * var(--mapGridSize) * var(--mapScaleFactor));
+    height: calc(var(--cameraRows) * var(--mapGridSize) * var(--mapScaleFactor));
   
     position: relative;
     overflow: hidden;
@@ -27,8 +27,8 @@
     background-color: aqua;
   
     /* Align this to the mapgrid */
-    top: calc(8 * var(--gridSize) * var(--scale-factor));
-    left: calc(23 * var(--gridSize) * var(--scale-factor));
+    top: calc(8 * var(--mapGridSize) * var(--mapScaleFactor));
+    left: calc(23 * var(--mapGridSize) * var(--mapScaleFactor));
   }
   
   .object-sprite {
@@ -37,7 +37,7 @@
     z-index: 20;
     image-rendering: pixelated;
   
-    transform: scale(var(--scale-factor));
+    transform: scale(var(--mapScaleFactor));
     transform-origin: top left;
   
     background-image: url(./assets/red-salamander.png);

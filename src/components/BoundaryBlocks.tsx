@@ -1,4 +1,4 @@
-import { boundaries, map } from '../gameConfig';
+import { boundaries, gameProperties } from '../gameConfig';
 import '../styles/BoundaryBlocks.css';
 
 // Just for visualizing on the map; they will function whether or not they are displayed so this is an optional component
@@ -20,8 +20,12 @@ interface BoundaryBlockProps {
 }
 function BoundaryBlock({ locationY, locationX }: BoundaryBlockProps) {
   const locationStyle = {
-    top: `${locationY * map.gridSize * map.scaleFactor}px`,
-    left: `${locationX * map.gridSize * map.scaleFactor}px`,
+    top: `${
+      locationY * gameProperties.gridSize * gameProperties.scaleFactor
+    }px`,
+    left: `${
+      locationX * gameProperties.gridSize * gameProperties.scaleFactor
+    }px`,
   };
 
   return <div className="boundary" style={locationStyle}></div>;

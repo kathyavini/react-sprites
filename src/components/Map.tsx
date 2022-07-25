@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { MapGrid } from './MapGrid';
 import { BoundaryBlocks } from './BoundaryBlocks';
-import { map } from '../gameConfig';
+import { gameProperties } from '../gameConfig';
 import '../styles/Map.css';
 
 type MapProps = {
@@ -18,7 +18,11 @@ export const Map = ({ positionDiff, step }: MapProps) => {
         x: -positionDiff[1] * step,
       }}
     >
-      <motion.img className="map" src={map.url} aria-label="map" />
+      <motion.img
+        className="map"
+        src={gameProperties.mapImg}
+        aria-label="map"
+      />
       <MapGrid />
       <Object />
       <BoundaryBlocks />

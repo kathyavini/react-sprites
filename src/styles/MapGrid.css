@@ -6,7 +6,7 @@
     left: 0;
   
     display: grid;
-    grid-template-columns: repeat(var(--mapCols), 1fr);
+    grid-template-columns: repeat(var(--mapColumns), 1fr);
     grid-template-rows: repeat(var(--mapRows), 1fr);
   
     pointer-events: none;

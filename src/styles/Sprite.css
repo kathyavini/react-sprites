@@ -1,55 +1,55 @@
 .sprite {
   outline: 1px solid white;
-    width: var(--hero-width);
-    height: var(--hero-height);
+    width: var(--heroWidth);
+    height: var(--heroWeight);
     z-index: 25;
     image-rendering: pixelated;
   
-    background-image: var(--hero-base);
+    background-image: var(--heroBase);
     background-size: cover;
   
     /* For testing only please. Enlarge sprite before exporting in production */
-    transform: scale(calc(var(--hero-scale) * var(--scale-factor)));
+    transform: scale(calc(var(--heroScale) * var(--mapScaleFactor)));
     transform-origin: top left;
   }
   
   .sprite.left, .sprite.down.left, .sprite.up.left {
-    transform: scale(calc(var(--hero-scale) * var(--scale-factor))) scaleX(-1) translateX(50%);
+    transform: scale(calc(var(--heroScale) * var(--mapScaleFactor))) scaleX(-1) translateX(50%);
     transform-origin: top right;
   }
   
   .sprite.idle {
-    width: var(--hero-idle-width, var(--hero-width));
-    height: var(--hero-idle-height, var(--hero-height));
-    background-image: var(--hero-idle, var(--hero-base));
-    animation: spriteIdle steps(var(--hero-idle-steps, 1)) var(--hero-speed, 650ms) infinite;
+    width: var(--heroIdleWidth, var(--heroWidth));
+    height: var(--heroIdleHeight, var(--heroHeight));
+    background-image: var(--heroIdle, var(--heroBase));
+    animation: spriteIdle steps(var(--heroIdleSteps, 1)) var(--heroSpeed, 650ms) infinite;
   }
 
   .sprite.idle.vertical {
-    animation: spriteIdleVertical steps(var(--hero-idle-steps, 1)) var(--hero-speed, 650ms) infinite;
+    animation: spriteIdleVertical steps(var(--heroIdleSteps, 1)) var(--heroSpeed, 650ms) infinite;
   }
   
   .sprite.running, .sprite.straight.up.running {
-   width: var(--hero-run-width, var(--hero-width));
-   height: var(--hero-run-height, var(--hero-height));
-    background-image: var(--hero-run, var(--hero-base));
-    animation: spriteRun steps(var(--hero-run-steps, 1)) var(--hero-speed, 650ms) infinite;
+   width: var(--heroRunWidth, var(--heroWidth));
+   height: var(--heroRunHeight, var(--heroHeight));
+    background-image: var(--heroRun, var(--heroBase));
+    animation: spriteRun steps(var(--heroRunSteps, 1)) var(--heroSpeed, 650ms) infinite;
   }
 
   .sprite.running.vertical {
-    animation: spriteRunVertical steps(var(--hero-run-steps, 1)) var(--hero-speed, 650ms) infinite;
+    animation: spriteRunVertical steps(var(--heroRunSteps, 1)) var(--heroSpeed, 650ms) infinite;
   }
 
   .sprite.jump {
-    width: var(--hero-jump-width, var(--hero-width));
-    height: var(--hero-jump-height, var(--hero-height));
-    background-image: var(--hero-jump, var(--hero-base));
+    width: var(--heroJumpWidth, var(--heroWidth));
+    height: var(--heroJumpHeight, var(--heroHeight));
+    background-image: var(--heroJump, var(--heroBase));
     z-index: 5;
-    animation: spriteJump steps(var(--hero-jump-steps, 1)) var(--hero-speed, 650ms) infinite;
+    animation: spriteJump steps(var(--heroJumpSteps, 1)) var(--heroSpeed, 650ms) infinite;
   }
 
   .sprite.jump.vertical {
-    animation: spriteJumpVertical steps(var(--hero-jump-steps, 1)) var(--hero-speed, 650ms) infinite;
+    animation: spriteJumpVertical steps(var(--heroJumpSteps, 1)) var(--heroSpeed, 650ms) infinite;
   }
   
   
@@ -58,21 +58,21 @@
     /* 100% {background-position-y: -288px} */
   
     0% {background-position-x: 0}
-    100% {background-position-x: var(--hero-idle-end, 0)}
+    100% {background-position-x: var(--heroIdleEnd, 0)}
   }
   
   @keyframes spriteRun {
     /* 0% {background-position-y: 0}
     100% {background-position-y: -384px} */  
     0% {background-position-x: 0}
-    100% {background-position-x: var(--hero-run-end, 0)}
+    100% {background-position-x: var(--heroRunEnd, 0)}
   }
   
   @keyframes spriteJump {
     /* 0% {background-position-y: 0}
     100% {background-position-y: -240px} */
     0% {background-position-x: 0}
-    100% {background-position-x: var(--hero-jump-end, 0)}
+    100% {background-position-x: var(--heroJumpEnd, 0)}
   }
 
 
@@ -80,16 +80,16 @@
 
   @keyframes spriteIdleVertical {
     0% {background-position-y: 0}
-    100% {background-position-y: var(--hero-idle-end, 0)}
+    100% {background-position-y: var(--heroIdleEnd, 0)}
   }
   
   @keyframes spriteRunVertical {
     0% {background-position-y: 0}
-    100% {background-position-y: var(--hero-run-end, 0)}
+    100% {background-position-y: var(--heroRunEnd, 0)}
   }
   
   @keyframes spriteJumpVertical {
     0% {background-position-y: 0}
-    100% {background-position-y: var(--hero-jump-end, 0)}
+    100% {background-position-y: var(--heroJumpEnd, 0)}
   }
   

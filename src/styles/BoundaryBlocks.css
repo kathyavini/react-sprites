@@ -1,8 +1,8 @@
 .boundary {
     position: absolute;
   
-    height: calc(var(--gridSize) * var(--scale-factor));
-    width: calc(var(--gridSize) * var(--scale-factor));
+    height: calc(var(--mapGridSize) * var(--mapScaleFactor));
+    width: calc(var(--mapGridSize) * var(--mapScaleFactor));
     background-color: hsla(0, 90%, 70%, .8);
   
     z-index: 30;

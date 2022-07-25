@@ -2,16 +2,16 @@
 .map-container {
     position: relative;
   
-    width: calc(var(--mapImageWidth) * var(--scale-factor));
-    height: calc(var(--mapImageHeight) * var(--scale-factor));
+    width: calc(var(--mapImgWidth) * var(--mapScaleFactor));
+    height: calc(var(--mapImgHeight) * var(--mapScaleFactor));
   
     display: flex;
     justify-content: center;
     align-items: center;
   
     /* Align this to the grid */
-    top: calc(var(--mapOffsetY) * var(--gridSize) * var(--scale-factor));
-    left: calc(var(--mapOffsetX) * var(--gridSize) * var(--scale-factor));
+    top: calc(var(--mapOffsetY) * var(--mapGridSize) * var(--mapScaleFactor));
+    left: calc(var(--mapOffsetX) * var(--mapGridSize) * var(--mapScaleFactor));
   }
   
   img.map {
